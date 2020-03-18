@@ -1,7 +1,16 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import Task from '../Task/Task';
+import { deleteProject, addNewTaskActivate } from '../../redux/actionCreators';
 
+const mapStateToProps = state => ({
+  projectList: state.projects
+})
+
+const mapDispatchToProps = (dispatch, ownProps) => ({
+  deleteProject: () => dispatch(deleteProject(ownProps.projects, ownProps.project)),
+  addNewTaskActive: () => dispatch(addNewTaskActivate(ownProps.project))
+})
 
 function Project(props) {
   return (
@@ -20,14 +29,18 @@ function Project(props) {
               }) }
           </ul>
         </div>
-        <button type='button'>Add new task</button>
+        <button type='button' onClick={props.addNewTaskActive}>Add new task</button>
         <button type='button'>Edit Project</button>
-        <button type='button'>Delete Project</button>
+        <button type='button' onClick={props.deleteProject}>Delete Project</button>
       </div>
     </li>
   )
 } 
 
 // create element for list of tasks?
+// use Higher-order component for project/task and their forms
 
-export default Project;
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Project);

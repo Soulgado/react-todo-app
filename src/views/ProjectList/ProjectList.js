@@ -15,7 +15,11 @@ function ProjectList(props) {
       <div className='project-list'>
         <ol>
           {props.projects.map(project => {
-            return <Project project={project} />   // create Project element
+            return (
+              <li key={project.name}>
+                <Project project={project} /> 
+              </li>
+            )
           })}
         </ol>
       </div>

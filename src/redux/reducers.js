@@ -1,7 +1,10 @@
 import * as types from './types';
+import Project from '../constructors/ProjectConstructor';
+
+const defaultProject = new Project('Example', 'Example project', "12-04-2020", 'Medium');
 
 export const initialState = {
-  projects: [],              // use localStorage for fetching projects
+  projects: [defaultProject],              // use localStorage for fetching projects
   currentProject: null,
   name: '',
   description: '',

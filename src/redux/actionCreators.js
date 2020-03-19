@@ -6,6 +6,7 @@ import Task from '../constructors/task';
 
 export function deleteProject(projectList, project) {
   projectList.splice(projectList.indexOf(project), 1);
+  console.log(projectList);
   return ({ 
     type: types.DELETE_PROJECT,
     payload: projectList
@@ -13,8 +14,6 @@ export function deleteProject(projectList, project) {
 }
 
 export function addNewTaskActivate(project) {
-  const projectElement = document.querySelector(`#${project.name}`);
-  ReactDOM.render(<TaskForm />, projectElement);   // new task form
   return ({
     type: types.ADD_NEW_TASK_TO_DOM,
     payload: project     // set state.currentProject to project

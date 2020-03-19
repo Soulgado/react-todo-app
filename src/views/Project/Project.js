@@ -1,21 +1,28 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import Task from '../Task/Task';
+import TaskForm from '../TaskForm/TaskForm';
 import { deleteProject, addNewTaskActivate } from '../../redux/actionCreators';
 
-const mapStateToProps = state => ({
-  projectList: state.projects
-})
+const mapStateToProps = state => {
+  return {projects: state.projects}
+}
 
-const mapDispatchToProps = (dispatch, ownProps) => ({
-  deleteProject: () => dispatch(deleteProject(ownProps.projects, ownProps.project)),
-  addNewTaskActive: () => dispatch(addNewTaskActivate(ownProps.project))
-})
+const mergeProps = (stateProps, dispatchProps, ownProps) => {
+  const { dispatch } = dispatchProps;
+
+  return {
+    ...stateProps,
+    ...ownProps,
+    deleteProject: () => dispatch(deleteProject(stateProps.projects, ownProps.project)),
+    addNewTaskActive: () => dispatch(addNewTaskActivate(ownProps.project))
+  }
+}
 
 function Project(props) {
+  console.log(props);
   return (
-    <li key={props.project.name}>
-      <div className='project-element'>
+      <div className='project-element' id={props.project.name}>
         <p>Name: {props.project.name}</p>
         <p>Description: {props.project.description}</p>
         <p>Due date: <time>{props.project.dueDate}</time></p>
@@ -32,8 +39,8 @@ function Project(props) {
         <button type='button' onClick={props.addNewTaskActive}>Add new task</button>
         <button type='button'>Edit Project</button>
         <button type='button' onClick={props.deleteProject}>Delete Project</button>
+        <TaskForm />
       </div>
-    </li>
   )
 } 
 
@@ -42,5 +49,6 @@ function Project(props) {
 
 export default connect(
   mapStateToProps,
-  mapDispatchToProps
+  null,
+  mergeProps
 )(Project);

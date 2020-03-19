@@ -24,7 +24,7 @@ function TaskForm(props) {
   return (
     <form>
       <label>Name:
-        <input type='text' name='name' value='' onChange={props.nameChange}></input> 
+        <input type='text' name='name' value={props.name} onChange={props.nameChange}></input> 
       </label>
       <label>Description:
         <textarea name='description' value='' onChange={props.descChange}></textarea>

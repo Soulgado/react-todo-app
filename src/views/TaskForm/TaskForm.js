@@ -1,51 +1,60 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { connect } from 'react-redux';
-import { addNewTaskToProject, nameChange, descriptionChange, dateChange, importanceChange } from '../../redux/actionCreators';
+import { addNewTaskToProject } from '../../redux/actionCreators';
 
 const mapStateToProps = state => ({
   projects: state.projects,
   currentProject: state.currentProject,
-  name: state.name,
-  description: state.description,
-  due: state.dueDate,
-  importance: state.importance
 })
 
-const mapDispatchToProps = (dispatch, ownProps) => ({
-  addNewTask: () => dispatch(addNewTaskToProject(ownProps.projects, ownProps.currentProject,
-    {name: ownProps.name, description: ownProps.description, due: ownProps.due, importance: ownProps.importance})),
-  nameChange: (e) => dispatch(nameChange(e.target.value)),
-  descChange: (e) => dispatch(descriptionChange(e.target.value)),
-  dateChange: (e) => dispatch(dateChange(e.target.value)),
-  importanceChange: (e) => dispatch(importanceChange(e.target.value))
-})
+const mergeProps = (stateProps, dispatchProps, ownProps) => {
+  const { dispatch } = dispatchProps;
+
+  return {
+    ...stateProps,
+    ...ownProps,
+    addNewTask: (formData) => dispatch(addNewTaskToProject(stateProps.projects, stateProps.currentProject, formData))
+  }
+}
 
 function TaskForm(props) {
+  const [name, setName] = useState('');
+  const [description, setDescription] = useState('');
+  const [due, setDue] = useState('');
+  const [importance, setImportance] = useState('low');
+
+  function handleClick(e, name, description, due, importance) {
+    e.preventDefault();
+    props.handleClick();
+    props.addNewTask({ name, description, due, importance});
+  }
+
   return (
     <form>
       <label>Name:
-        <input type='text' name='name' value={props.name} onChange={props.nameChange}></input> 
+        <input type='text' name='name' value={name} onChange={(e) => (setName(e.target.value))}></input> 
       </label>
       <label>Description:
-        <textarea name='description' value='' onChange={props.descChange}></textarea>
+        <textarea name='description' value={description} onChange={(e) => (setDescription(e.target.value))}></textarea>
       </label>
       <label>Due to:
-        <input type='date' name='due' value='' onChange={props.dateChange}></input>
+        <input type='date' name='due' value={due} onChange={(e) => (setDue(e.target.value))}></input>
       </label>
       <fieldset>
         <legend>Importance</legend>
-        <select onChange={props.importanceChange}>
+        <select value={importance} onChange={(e) => (setImportance(e.target.value))}>
           <option name='importance' value='Low'>Low</option>
           <option name='importance' value='Medium'>Medium</option>
           <option name='importance' value='High'>High</option>
         </select>
       </fieldset>
-      <button type='button' onClick={props.addNewTask}>Add New Task</button>
+      <button type='button' onClick={(e) => handleClick(e, name, description, due, importance)}>Add New Task</button>
     </form>
   )
 }
 
 export default connect(
   mapStateToProps,
-  mapDispatchToProps
+  null,
+  mergeProps
 )(TaskForm)

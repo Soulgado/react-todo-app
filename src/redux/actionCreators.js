@@ -1,22 +1,11 @@
 import * as types from './types';
-import React from 'react';
-import ReactDOM from 'react-dom';
-import TaskForm from '../views/TaskForm/TaskForm';
 import Task from '../constructors/task';
 
 export function deleteProject(projectList, project) {
   projectList.splice(projectList.indexOf(project), 1);
-  console.log(projectList);
   return ({ 
     type: types.DELETE_PROJECT,
     payload: projectList
-  })
-}
-
-export function addNewTaskActivate(project) {
-  return ({
-    type: types.ADD_NEW_TASK_TO_DOM,
-    payload: project     // set state.currentProject to project
   })
 }
 
@@ -29,22 +18,7 @@ export function addNewTaskToProject(projects, project, formData) {
   })
 }
 
-export const nameChange = (name) => ({    // validators on name field
-  type: types.NAME_CHANGE,
-  payload: name
-})
-
-export const descriptionChange = (description) => ({
-  type: types.DESC_CHANGE,
-  payload: description
-})
-
-export const dateChange = (date) => ({
-  type: types.DATE_CHANGE,
-  payload: date
-})
-
-export const importanceChange = (importance) => ({
-  type: types.IMPORTANCE_CHANGE,
-  payload: importance
+export const setProjectActive = (project) => ({
+  type: types.SET_PROJECT_ACTIVE,
+  payload: project
 })

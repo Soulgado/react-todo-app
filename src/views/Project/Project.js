@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import Task from '../Task/Task';
 import TaskForm from '../TaskForm/TaskForm';
-import { deleteProject, addNewTaskActivate } from '../../redux/actionCreators';
+import { deleteProject, setProjectActive } from '../../redux/actionCreators';
 
 const mapStateToProps = state => {
   return {projects: state.projects}
@@ -15,12 +15,24 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
     ...stateProps,
     ...ownProps,
     deleteProject: () => dispatch(deleteProject(stateProps.projects, ownProps.project)),
-    addNewTaskActive: () => dispatch(addNewTaskActivate(ownProps.project))
+    setCurrentProject: () => dispatch(setProjectActive(ownProps.project))
   }
 }
 
 function Project(props) {
-  console.log(props);
+  const [addFormActive, setAddForm] = useState(false)
+
+  function changeAddFormState() {
+    let formState = addFormActive;
+    props.setCurrentProject();
+    setAddForm(!formState);
+  } 
+
+  function changeAddFormStateV2() {
+    let formState = addFormActive;
+    setAddForm(!formState);
+  }
+
   return (
       <div className='project-element' id={props.project.name}>
         <p>Name: {props.project.name}</p>
@@ -29,17 +41,17 @@ function Project(props) {
         <p>Importance: {props.project.importance}</p>
         <div className='list-of-tasks'>    
           <ul>
-            {props.project.tasks === []
+            {props.project.tasks.length === 0
               ? <span>None</span>
               : props.project.tasks.map(task => {
                 return <Task task={task} />
               }) }
           </ul>
         </div>
-        <button type='button' onClick={props.addNewTaskActive}>Add new task</button>
+        <button type='button' onClick={changeAddFormState}>Add new task</button>
         <button type='button'>Edit Project</button>
         <button type='button' onClick={props.deleteProject}>Delete Project</button>
-        <TaskForm />
+        {addFormActive && <TaskForm handleClick={changeAddFormStateV2} />}
       </div>
   )
 } 

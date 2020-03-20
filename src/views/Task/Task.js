@@ -8,7 +8,6 @@ function Task(props) {
         <p>Description: {props.task.description}</p>
         <p>Due date: <time>{props.task.dueDate}</time></p>
         <p>Importance: {props.task.importance}</p>
-        <button type='button'>Add New Task</button>
         <button type='button'>Edit Task</button>
         <button type='button'>Delete Task</button>
       </div>

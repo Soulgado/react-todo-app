@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
+import { useParams } from 'react-router-dom';
 import Task from '../Task/Task';
 import TaskForm from '../TaskForm/TaskForm';
 import { deleteProject, setProjectActive } from '../../redux/actionCreators';
@@ -14,17 +15,19 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
   return {
     ...stateProps,
     ...ownProps,
-    deleteProject: () => dispatch(deleteProject(stateProps.projects, ownProps.project)),
-    setCurrentProject: () => dispatch(setProjectActive(ownProps.project))
+    deleteProject: (thisProject) => dispatch(deleteProject(stateProps.projects, thisProject)),
+    setCurrentProject: (thisProject) => dispatch(setProjectActive(thisProject))
   }
 }
 
 function Project(props) {
-  const [addFormActive, setAddForm] = useState(false)
+  const [addFormActive, setAddForm] = useState(false);
+  let { name } = useParams();
+  let thisProject = props.projects.find(elem => elem.name === name);
 
   function changeAddFormState() {
     let formState = addFormActive;
-    props.setCurrentProject();
+    props.setCurrentProject(thisProject);
     setAddForm(!formState);
   } 
 
@@ -34,33 +37,32 @@ function Project(props) {
   }
 
   return (
-      <div className='project-element' id={props.project.name}>
-        <p>Name: {props.project.name}</p>
-        <p>Description: {props.project.description}</p>
-        <p>Due date: <time>{props.project.dueDate}</time></p>
-        <p>Importance: {props.project.importance}</p>
+      <div className='project-element' id={thisProject.name}>
+        <p>Name: {thisProject.name}</p>
+        <p>Description: {thisProject.description}</p>
+        <p>Due date: <time>{thisProject.dueDate}</time></p>
+        <p>Importance: {thisProject.importance}</p>
         <div className='list-of-tasks'>    
           <ul>
-            {props.project.tasks.length === 0
+            {thisProject.tasks.length === 0
               ? <span>None</span>
-              : props.project.tasks.map(task => {
+              : thisProject.tasks.map(task => {
                 return <Task task={task} />
               }) }
           </ul>
         </div>
         <button type='button' onClick={changeAddFormState}>Add new task</button>
         <button type='button'>Edit Project</button>
-        <button type='button' onClick={props.deleteProject}>Delete Project</button>
+        <button type='button' onClick={() => props.deleteProject(thisProject)}>Delete Project</button>
         {addFormActive && <TaskForm handleClick={changeAddFormStateV2} />}
       </div>
   )
 } 
-
-// create element for list of tasks?
-// use Higher-order component for project/task and their forms
 
 export default connect(
   mapStateToProps,
   null,
   mergeProps
 )(Project);
+
+// create element for list of tasks?

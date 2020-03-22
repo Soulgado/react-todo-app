@@ -1,4 +1,4 @@
-import Task from './task';
+import Task from './TaskConstructor';
 
 class Project extends Task {
   constructor(name, desc, due, importance) {

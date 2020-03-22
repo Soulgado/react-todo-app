@@ -1,11 +1,12 @@
 import * as types from './types';
-import Task from '../constructors/task';
+import Task from '../constructors/TaskConstructor';
+import Project from '../constructors/ProjectConstructor';
 
 export function deleteProject(projectList, project) {
-  projectList.splice(projectList.indexOf(project), 1);
+  const newProjectList = projectList.filter(entity => entity !== project);  
   return ({ 
     type: types.DELETE_PROJECT,
-    payload: projectList
+    payload: newProjectList      // action must return new object (new pointer) to state to force component update
   })
 }
 
@@ -22,3 +23,12 @@ export const setProjectActive = (project) => ({
   type: types.SET_PROJECT_ACTIVE,
   payload: project
 })
+
+export function addNewProject(projects, formData) {
+  const newProject = new Project(formData.name, formData.description, formData.due, formData.importance);
+  projects.push(newProject);
+  return ({
+    type: types.ADD_NEW_PROJECT,
+    payload: projects
+  })
+}

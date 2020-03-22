@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import Task from '../Task/Task';
+import TaskComponent from '../Task/Task';
 import TaskForm from '../TaskForm/TaskForm';
-import { deleteProject, setProjectActive } from '../../redux/actionCreators';
+import { setProjectActive } from '../../redux/actionCreators';
 
 const mapStateToProps = state => {
   return {projects: state.projects}
@@ -15,7 +15,6 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
   return {
     ...stateProps,
     ...ownProps,
-    deleteProject: (thisProject) => dispatch(deleteProject(stateProps.projects, thisProject)),
     setCurrentProject: (thisProject) => dispatch(setProjectActive(thisProject))
   }
 }
@@ -26,14 +25,12 @@ function Project(props) {
   let thisProject = props.projects.find(elem => elem.name === name);
 
   function changeAddFormState() {
-    let formState = addFormActive;
     props.setCurrentProject(thisProject);
-    setAddForm(!formState);
+    setAddForm(!addFormActive);
   } 
 
   function changeAddFormStateV2() {
-    let formState = addFormActive;
-    setAddForm(!formState);
+    setAddForm(!addFormActive);
   }
 
   return (
@@ -47,13 +44,12 @@ function Project(props) {
             {thisProject.tasks.length === 0
               ? <span>None</span>
               : thisProject.tasks.map(task => {
-                return <Task task={task} />
+                return <TaskComponent task={task} />
               }) }
           </ul>
         </div>
         <button type='button' onClick={changeAddFormState}>Add new task</button>
         <button type='button'>Edit Project</button>
-        <button type='button' onClick={() => props.deleteProject(thisProject)}>Delete Project</button>
         {addFormActive && <TaskForm handleClick={changeAddFormStateV2} />}
       </div>
   )

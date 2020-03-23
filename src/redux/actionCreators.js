@@ -32,3 +32,14 @@ export function addNewProject(projects, formData) {
     payload: projects
   })
 }
+
+export function changeProject(projects, project, formData) {
+  const newProject = new Project(formData.name, formData.description, formData.due, formData.importance);
+  projects.splice(projects.indexOf(project), 1, newProject);
+  console.log(projects);
+  return ({
+    type: types.CHANGE_PROJECT,
+    payload: projects
+  })
+
+}

@@ -1,10 +1,11 @@
 import * as types from './types';
 import Project from '../constructors/ProjectConstructor';
 
-const defaultProject = new Project('Example', 'Example project', "12-04-2020", 'Medium');
+const defaultProject = new Project('Example', 'Example project', '12-04-2020', 'Medium');
+const defaultProject2 = new Project('JustLearning', 'Just learning different stuff', '03-25-2020', 'High');
 
 export const initialState = {
-  projects: [defaultProject],           // use localStorage for fetching projects
+  projects: [defaultProject, defaultProject2],           // use localStorage for fetching projects
   currentProject: null,
 }
 
@@ -18,6 +19,8 @@ export const rootReducer = (state=initialState, action) => {
       return {...state, projects: action.payload, currentProject: null}
     case types.SET_PROJECT_ACTIVE:
       return {...state, currentProject: action.payload}
+    case types.CHANGE_PROJECT:
+      return {...state, projects: action.payload}
     default:
       return state;
   };

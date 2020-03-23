@@ -13,7 +13,7 @@ function TaskComponent(props) {
       <div className='task-element' id={props.task.name}>
         <p>Name: {props.task.name}</p>
         <p>Description: {props.task.description}</p>
-        <p>Due date: <time>{props.task.dueDate}</time></p>
+        <p>Due date: <time>{props.task.dueDate.toDateString()}</time></p>
         <p>Importance: {props.task.importance}</p>
         <button type='button' onClick={handleClick}>Edit Task</button>
         <button type='button'>Delete Task</button>

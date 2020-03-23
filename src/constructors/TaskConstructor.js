@@ -2,7 +2,7 @@ class Task {
   constructor(name, desc, due, importance) {
     this._name = name;
     this._desc = desc;
-    this._due = due;    // use new Date(due)??
+    this._due = new Date(due);    // use new Date(due)??
     this._importance = importance;
   } 
   
@@ -27,7 +27,7 @@ class Task {
   }
 
   set dueDate(newDate) {
-    this._due = newDate;
+    this._due = new Date(newDate);
   }
 
   get importance() {
@@ -38,9 +38,15 @@ class Task {
     this._importance = newImportance;
   }
 
+  daysLeft() {
+    const currentDate = new Date();
+    let difference = Math.round((this._due - currentDate)/1000/60/60/24);
+    return difference > 0 ? difference : 0;
+  }
+
   isDeadline() {
     const currentDate = new Date();
-    if (this._due > currentDate && this._due - currentDate < 259200) {   // less than 3 days
+    if (this._due > currentDate && this._due - currentDate < 259200000) {   // less than 3 days
       return true;
     }
     return false;

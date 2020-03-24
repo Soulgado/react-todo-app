@@ -36,7 +36,7 @@ function TaskComponent(props) {
         <button type='button' onClick={handleClick}>Edit Task</button>
         <button type='button' onClick={props.deleteTask}>Delete Task</button>
       </div>
-      {editFormActive && <TaskEditForm task={props.task} />}
+      {editFormActive && <TaskEditForm task={props.task} handleClick={handleClick}/>}
     </div> 
   )
 }

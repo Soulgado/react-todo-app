@@ -46,9 +46,19 @@ export function changeProject(projects, project, formData) {
 
 export function deleteTask(projects, project, task) {
   project.deleteTask(task);
-  let newProjects = projects.slice(0, projects.length);
+  let newProjects = projects.slice();
   return ({
     type: types.DELETE_TASK,
+    payload: newProjects
+  })
+}
+
+export function changeTask(projects, project, task, formData) {
+  const newTask = new Task(formData.name, formData.description, formData.due, formData.importance);
+  project.tasks.splice(project.tasks.indexOf(task), 1, newTask);
+  let newProjects = projects.splice();
+  return ({
+    type: types.CHANGE_PROJECT,
     payload: newProjects
   })
 }

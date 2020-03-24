@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { addNewProject } from '../../redux/actionCreators';
+import checkNameValidity from '../FormValidators/modules/checkName';
+import NameValidator from '../FormValidators/components/NameValidator';
 
 const mapStateToProps = state => ({
   projects: state.projects
@@ -21,9 +23,14 @@ function ProjectForm(props) {
   const [description, setDescription] = useState('');
   const [due, setDue] = useState('');
   const [importance, setImportance] = useState('');
+  const [error, setError] = useState('');
 
   function handleClick(e) {
     e.preventDefault();
+    if (checkNameValidity(name)) {
+      setError(checkNameValidity(name));
+      return;
+    }
     const formData = {
       name,
       description,
@@ -34,10 +41,21 @@ function ProjectForm(props) {
     props.addNewProject(formData);
   }
 
+  function handleNameChange(e) {
+    setName(e.target.value);
+    let error = checkNameValidity(e.target.value);
+    if (error) {
+      setError(error);
+    } else {
+      setError('');
+    }
+  }
+
   return (
       <form onSubmit={(e) => {handleClick(e)}}>
         <label>Name:
-          <input type='text' name='name' value={name} onChange={(e) => (setName(e.target.value))}></input> 
+          <input type='text' name='name' value={name} onChange={(e) => handleNameChange(e)}></input>
+          <NameValidator error={error} /> 
         </label>
         <label>Description:
           <textarea name='description' value={description} onChange={(e) => (setDescription(e.target.value))}></textarea>

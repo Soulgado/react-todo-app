@@ -27,6 +27,8 @@ export const rootReducer = (state=initialState, action) => {
       return {...state, projects: action.payload}
     case types.DELETE_TASK:
       return {...state, projects: action.payload}
+    case types.CHANGE_TASK:
+      return {...state, projects: action.payload}
     default:
       return state;
   };

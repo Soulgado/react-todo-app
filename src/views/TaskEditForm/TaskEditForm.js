@@ -1,4 +1,21 @@
 import React, { useState } from 'react';
+import { connect } from 'react-redux';
+import { changeTask } from '../../redux/actionCreators';
+
+const mapStateToProps = state => ({
+  projects: state.projects,
+  project: state.currentProject
+})
+
+const mergeProps = (stateProps, dispatchProps, ownProps) => {
+  const { dispatch } = dispatchProps;
+
+  return {
+    ...stateProps,
+    ...ownProps,
+    changeTask: (formData) => dispatch(changeTask(stateProps.projects, stateProps.projects, ownProps.task, formData))
+  }
+}
 
 function TaskEditForm(props) {
   const [name, setName] = useState(props.task.name);
@@ -6,8 +23,21 @@ function TaskEditForm(props) {
   const [due, setDue] = useState(props.task.due);
   const [importance, setImportance] = useState(props.task.importance);
 
+  function handleSubmit(e) {
+    e.preventDefault();
+    let formData = {
+      name,
+      description,
+      due,
+      importance
+    }
+    props.handleClick();
+    props.changeTask(formData);
+
+  }
+
   return (
-    <form>
+    <form onSubmit={(e) => handleSubmit(e)}>
        <label>Name:
         <input type='text' name='name' value={name} onChange={(e) => (setName(e.target.value))}></input> 
       </label>
@@ -25,9 +55,13 @@ function TaskEditForm(props) {
           <option name='importance' value='High'>High</option>
         </select>
       </fieldset>
-      <button type='button'>Apply Changes</button>
+      <button type='submit'>Apply Changes</button>
     </form>
   )
 }
 
-export default TaskEditForm;
+export default connect(
+  mapStateToProps,
+  null,
+  mergeProps
+)(TaskEditForm);

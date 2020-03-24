@@ -27,7 +27,6 @@ function Project(props) {
   let { name } = useParams();
   let thisProject = props.projects.find(elem => elem.name === name);  // render error page if undefined
   props.setCurrentProject(thisProject);
-  console.log(thisProject.isDeadline());
 
   function changeAddFormState() {
     if (editFormActive) return;
@@ -71,13 +70,17 @@ function Project(props) {
         {editFormActive && <ProjectEditForm handleClick={changeEditFormState}/>}
         <div className='list-of-tasks'> 
           <h3>Tasks:</h3>  
-          <ul>
+          <ol>
             {thisProject.tasks.length === 0
               ? <span>None</span>
               : thisProject.tasks.map(task => {
-                return <TaskComponent task={task} />
-              }) }
-          </ul>
+                return (
+                  <li key={task.name}>
+                    <TaskComponent task={task} />
+                  </li>
+                )  
+              })}
+          </ol>
         </div>
         
       </div>

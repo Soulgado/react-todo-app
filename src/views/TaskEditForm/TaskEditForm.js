@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 
-
 function TaskEditForm(props) {
   const [name, setName] = useState(props.task.name);
   const [description, setDescription] = useState(props.task.description);

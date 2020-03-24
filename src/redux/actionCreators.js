@@ -21,7 +21,9 @@ export function addNewTaskToProject(projects, project, formData) {
 
 export const setProjectActive = (project) => ({
   type: types.SET_PROJECT_ACTIVE,
-  payload: project
+  payload: {
+    project: project,
+  }
 })
 
 export function addNewProject(projects, formData) {
@@ -36,10 +38,17 @@ export function addNewProject(projects, formData) {
 export function changeProject(projects, project, formData) {
   const newProject = new Project(formData.name, formData.description, formData.due, formData.importance);
   projects.splice(projects.indexOf(project), 1, newProject);
-  console.log(projects);
   return ({
     type: types.CHANGE_PROJECT,
     payload: projects
   })
+}
 
+export function deleteTask(projects, project, task) {
+  project.deleteTask(task);
+  let newProjects = projects.slice(0, projects.length);
+  return ({
+    type: types.DELETE_TASK,
+    payload: newProjects
+  })
 }

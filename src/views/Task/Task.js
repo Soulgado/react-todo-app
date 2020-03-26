@@ -19,6 +19,8 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
   }
 }
 
+// !important: this element works, but gives warning on change
+
 function TaskComponent(props) {
   const [editFormActive, setEditForm] = useState(false);
 

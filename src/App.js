@@ -1,6 +1,5 @@
 import React from 'react';
 import { Route, Link, Switch } from 'react-router-dom';
-import './App.css';
 import './styles/header.sass'
 import ProjectList from './views/ProjectList/ProjectList';
 
@@ -23,7 +22,19 @@ function App() {
       <main>
         <Switch>
           <Route exact path='/'>
-            <h1>Main Page ToDo App</h1>
+            <div className='main-page-content'>
+              <h1>Main Page ToDo App</h1>
+              <div>
+                <p>This is a simple ToDo webapp for managing your personal projects and tasks.
+                    Functionality includes:</p>
+                <ul>
+                  <li>Create projects with description, due date and importance</li>
+                  <li>For each project create tasks</li>
+                  <li>Projects are saved locally</li>
+                </ul>
+              </div>
+            </div>
+            
           </Route>
           <Route path='/projects'>
             <ProjectList />

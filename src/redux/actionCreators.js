@@ -5,7 +5,7 @@ import Project from '../constructors/ProjectConstructor';
 export function deleteProject(projectList, project) {
   const newProjectList = projectList.filter(entity => entity !== project);  
   return ({ 
-    type: types.DELETE_PROJECT,
+    type: types.CHANGE_PROJECT_LIST,
     payload: newProjectList      // action must return new object (new pointer) to state to force component update
   })
 }
@@ -14,7 +14,7 @@ export function addNewTaskToProject(projects, project, formData) {
   const newTask = new Task(formData.name, formData.description, formData.due, formData.importance);
   project.addTask(newTask);
   return ({
-    type: types.ADD_NEW_TASK_TO_PROJECT,
+    type: types.CHANGE_ELEMENT,
     payload: projects
   })
 }
@@ -30,7 +30,7 @@ export function addNewProject(projects, formData) {
   const newProject = new Project(formData.name, formData.description, formData.due, formData.importance);
   projects.push(newProject);
   return ({
-    type: types.ADD_NEW_PROJECT,
+    type: types.CHANGE_PROJECT_LIST,
     payload: projects
   })
 }
@@ -39,7 +39,7 @@ export function changeProject(projects, project, formData) {
   const newProject = new Project(formData.name, formData.description, formData.due, formData.importance);
   projects.splice(projects.indexOf(project), 1, newProject);
   return ({
-    type: types.CHANGE_PROJECT,
+    type: types.CHANGE_PROJECT_LIST,
     payload: projects
   })
 }
@@ -48,7 +48,7 @@ export function deleteTask(projects, project, task) {
   project.deleteTask(task);
   let newProjects = projects.slice();
   return ({
-    type: types.DELETE_TASK,
+    type: types.CHANGE_ELEMENT,
     payload: newProjects
   })
 }
@@ -56,9 +56,16 @@ export function deleteTask(projects, project, task) {
 export function changeTask(projects, project, task, formData) {
   const newTask = new Task(formData.name, formData.description, formData.due, formData.importance);
   project.tasks.splice(project.tasks.indexOf(task), 1, newTask);
-  let newProjects = projects.splice();
   return ({
-    type: types.CHANGE_PROJECT,
-    payload: newProjects
+    type: types.CHANGE_ELEMENT,
+    payload: null
+  })
+}
+
+export function toggleProjectDone(project) {
+  project.toggleDone();
+  return ({
+    type: types.CHANGE_ELEMENT,
+    payload: null
   })
 }

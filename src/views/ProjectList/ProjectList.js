@@ -3,7 +3,8 @@ import { connect } from 'react-redux';
 import { Switch, Link, Route, useRouteMatch } from 'react-router-dom';
 import Project from '../Project/Project';
 import ProjectForm from '../AddProjectForm/AddProjectForm';
-import { deleteProject } from '../../redux/actionCreators';
+import ProjectListElement from '../ProjectListElement/ProjectListElement';
+import { deleteProject, toggleProjectDone } from '../../redux/actionCreators';
 import '../../styles/projectList.sass';
 
 const mapStateToProps = state => {
@@ -19,6 +20,7 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
     ...stateProps,
     ...ownProps,
     deleteProject: (thisProject) => dispatch(deleteProject(stateProps.projects, thisProject)),
+    toggleProject: (project) => dispatch(toggleProjectDone(project))
   }
 }
 
@@ -52,16 +54,11 @@ function ProjectList(props) {
           <div className='project-list'>
           <h1>List of all projects</h1>
             <ol>
-              {props.projects.map(project => {
-                return (
-                  <li key={project.name}>
-                    <div className='project-list-element'>
-                      <span>{project.name}</span>
-                      <button type='button' onClick={() => props.deleteProject(project)}>Delete Project</button>
-                    </div>
-                  </li>
-                )
-              })}
+              {props.projects.map(project => (
+                  <ProjectListElement key={project.name} 
+                      project={project} onClick={props.deleteProject}
+                      onToggle={props.toggleProject} />
+              ))}
             </ol>
           </div>
           <div className='add-new-project'>

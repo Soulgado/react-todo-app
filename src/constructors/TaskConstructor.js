@@ -2,8 +2,9 @@ class Task {
   constructor(name, desc, due, importance) {
     this._name = name;
     this._desc = desc;
-    this._due = new Date(due);    // use new Date(due)??
+    this._due = new Date(due); 
     this._importance = importance;
+    this._isDone = false;      // change to argument value???
   } 
   
   get name() {
@@ -36,6 +37,14 @@ class Task {
 
   set importance(newImportance) {
     this._importance = newImportance;
+  }
+
+  get isDone() {
+    return this._isDone;
+  }
+
+  toggleDone() {
+    this._isDone = !this._isDone;
   }
 
   daysLeft() {

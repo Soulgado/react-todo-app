@@ -63,7 +63,14 @@ function Project(props) {
           <div className='project-description-content'> 
             <p>{thisProject.importance}</p>
           </div>
+          <div className='project-description-title'>
+            <p>Done:</p>
+          </div>
+          <div className='project-description-content'>
+            <p>{String(thisProject.isDone)}</p>
+          </div>
         </div>
+        
         <button id='add-task-button' className='add-task-button' type='button' onClick={changeAddFormState}>Add new task</button>
         <button id='edit-project-button' className='edit-task-button' type='button' onClick={changeEditFormState}>Edit Project</button>
         {addFormActive && <TaskForm handleClick={changeAddFormState} />}

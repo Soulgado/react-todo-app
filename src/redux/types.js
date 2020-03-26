@@ -1,7 +1,3 @@
-export const ADD_NEW_PROJECT = 'ADD_NEW_PROJECT';
-export const DELETE_PROJECT = 'DELETE_PROJECT';
-export const ADD_NEW_TASK_TO_PROJECT = 'ADD_NEW_TASK_TO_PROJECT';
 export const SET_PROJECT_ACTIVE = 'SET_PROJECT_ACTIVE';
-export const CHANGE_PROJECT = 'CHANGE_PROJECT';
-export const DELETE_TASK = 'DELETE_TASK';
-export const CHANGE_TASK = 'CHANGE_TASK';
+export const CHANGE_PROJECT_LIST = 'CHANGE_PROJECT_LIST';  // new ProjectList object
+export const CHANGE_ELEMENT = 'CHANGE_ELEMENT';  // no new ProjectList object

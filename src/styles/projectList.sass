@@ -8,6 +8,33 @@
 .project-list-main-wrap
   width: 85%
 
+.project-list
+  width: 50%
+  margin: 0 auto
+  ol
+    li
+      margin-top: 10px
+      margin-bottom: 10px
+      padding-bottom: 5px
+      border-bottom: 1px solid grey
+      
+
+.project-list-element 
+  display: flex
+  justify-content: space-between
+  button
+    border: none
+    background-color: #a90000
+    color: white
+    border-radius: 2px
+  button
+    &:hover
+      background-color: #f30707
+      cursor: pointer
+  span
+    &:first-child
+      font-weight: bold
+
 .projects-nav-list
   color: red
   font-size: 16px
@@ -29,7 +56,8 @@
   color: #ebebeb
   font-size: 16px
   &:hover
-    box-shadow: inset 0 0 5px 5px #009100 
+    box-shadow: inset 0 0 5px 5px #009100
+    cursor: pointer 
   &:active
     background-color: #009100
 

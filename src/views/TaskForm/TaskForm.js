@@ -1,21 +1,4 @@
 import React, { useState } from 'react';
-import { connect } from 'react-redux';
-import { addNewTaskToProject } from '../../redux/actionCreators';
-
-const mapStateToProps = state => ({
-  projects: state.projects,
-  currentProject: state.currentProject,
-})
-
-const mergeProps = (stateProps, dispatchProps, ownProps) => {
-  const { dispatch } = dispatchProps;
-
-  return {
-    ...stateProps,
-    ...ownProps,
-    addNewTask: (formData) => dispatch(addNewTaskToProject(stateProps.projects, stateProps.currentProject, formData))
-  }
-}
 
 function TaskForm(props) {
   const [name, setName] = useState('');
@@ -23,14 +6,13 @@ function TaskForm(props) {
   const [due, setDue] = useState('');
   const [importance, setImportance] = useState('low');
 
-  function handleClick(e, name, description, due, importance) {
+  function handleSubmit(e, name, description, due, importance) {
     e.preventDefault();
-    props.handleClick();
-    props.addNewTask({ name, description, due, importance});
+    props.handleClick({ name, description, due, importance});
   }
 
   return (
-    <form>
+    <form onSubmit={(e) => handleSubmit(e, name, description, due, importance)}>
       <label>Name:
         <input type='text' name='name' value={name} onChange={(e) => (setName(e.target.value))}></input> 
       </label>
@@ -48,13 +30,9 @@ function TaskForm(props) {
           <option name='importance' value='High'>High</option>
         </select>
       </fieldset>
-      <button type='button' onClick={(e) => handleClick(e, name, description, due, importance)}>Add New Task</button>
+      <button type='submit'>Add New Task</button>
     </form>
   )
 }
 
-export default connect(
-  mapStateToProps,
-  null,
-  mergeProps
-)(TaskForm)
+export default TaskForm;

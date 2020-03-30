@@ -2,20 +2,9 @@ import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { changeTask } from '../../redux/actionCreators';
 
-const mapStateToProps = state => ({
-  projects: state.projects,
-  project: state.currentProject
+const mapDispatchToProps = (dispatch, ownProps) => ({
+  changeTask: (formData) => dispatch(changeTask(ownProps.task, formData))
 })
-
-const mergeProps = (stateProps, dispatchProps, ownProps) => {
-  const { dispatch } = dispatchProps;
-
-  return {
-    ...stateProps,
-    ...ownProps,
-    changeTask: (formData) => dispatch(changeTask(stateProps.projects, stateProps.projects, ownProps.task, formData))
-  }
-}
 
 function TaskEditForm(props) {
   const [name, setName] = useState(props.task.name);
@@ -33,7 +22,6 @@ function TaskEditForm(props) {
     }
     props.handleClick();
     props.changeTask(formData);
-
   }
 
   return (
@@ -61,7 +49,6 @@ function TaskEditForm(props) {
 }
 
 export default connect(
-  mapStateToProps,
   null,
-  mergeProps
+  mapDispatchToProps
 )(TaskEditForm);

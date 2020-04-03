@@ -1,43 +1,31 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
-import { useParams } from 'react-router-dom';
+import { useParams, useLocation, useRouteMatch, Link } from 'react-router-dom';
 import TaskComponent from '../Task/Task';
 import TaskForm from '../TaskForm/TaskForm';
 import ProjectEditForm from '../ProjectEditForm/ProjectEditForm';
-import { deleteTask, changeProject, addNewTaskToProject } from '../../redux/actionCreators';
+import { deleteTask, changeProject } from '../../redux/actionCreators';
 import '../../styles/project.sass';
 
 const mapStateToProps = state => {
   return {projects: state.projects}
 }
 
-const mergeProps = (stateProps, dispatchProps, ownProps) => {
-  const { dispatch } = dispatchProps;
-
-  return {
-    ...stateProps,
-    ...ownProps,
-    deleteTaskFromProj: (project, task) => dispatch(deleteTask(project, task)),
-    changeProject: (project, formData) => dispatch(changeProject(project, formData)),
-    addTask: (project, formData) => dispatch(addNewTaskToProject(project, formData))
-  }
-}
+const mapDispatchToProps = dispatch => ({
+  deleteTaskFromProj: (project, task) => dispatch(deleteTask(project, task)),
+  changeProject: (project, formData) => dispatch(changeProject(project, formData)),
+});
 
 function Project(props) {
   // this component controls every change in this project
   // it passes different handlers as props
-  const [addFormActive, setAddForm] = useState(false);
   const [editFormActive, setEditForm] = useState(false);
   let { name } = useParams();
+  let location = useLocation();
+  let { url } = useRouteMatch();
   let thisProject = props.projects.find(elem => elem.name === name);  // render error page if undefined
-
-  function changeAddFormState() {
-    if (editFormActive) return;
-    setAddForm(!addFormActive);
-  }
   
   function changeEditFormState() {
-    if (addFormActive) return;
     setEditForm(!editFormActive);
   }
 
@@ -48,11 +36,6 @@ function Project(props) {
   function changeThisProject(formData) {
     changeEditFormState();
     props.changeProject(thisProject, formData)
-  }
-
-  function addTaskToProject(formData) {
-    changeAddFormState();
-    props.addTask(thisProject, formData);
   }
 
   return (
@@ -87,11 +70,20 @@ function Project(props) {
             <p>{String(thisProject.isDone)}</p>
           </div>
         </div>
-        <button id='add-task-button' className='add-button'
-            type='button' onClick={changeAddFormState}>Add new task</button>
+        <Link
+          to={{
+            pathname: `${url}/new_task`,
+            state: { background: location }
+          }}>
+          <button
+            id='add-task-button'
+            className='add-button'
+            type='button'>
+              Add new task
+          </button>
+        </Link>
         <button id='edit-project-button' className='edit-button'
             type='button' onClick={changeEditFormState}>Edit Project</button>
-        {addFormActive && <TaskForm handleClick={addTaskToProject} />}
         {editFormActive && <ProjectEditForm project={thisProject} handleClick={changeThisProject}/>}
         <div className='list-of-tasks'> 
           <h3>Tasks:</h3>  
@@ -111,8 +103,7 @@ function Project(props) {
 
 export default connect(
   mapStateToProps,
-  null,
-  mergeProps
+  mapDispatchToProps
 )(Project);
 
 // create element for list of tasks?

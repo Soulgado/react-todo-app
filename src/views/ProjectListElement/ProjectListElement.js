@@ -30,8 +30,12 @@ function ProjectListElement(props) {
         <span>Done: 
         <input type='checkbox' onChange={() => props.onToggle(props.project)}
             defaultChecked={props.project.isDone}></input></span>
-        <button className='edit-button' type='button'
-            onClick={handleRenameClick}>Rename</button>
+        <button
+          className='edit-button'
+          type='button'
+          onClick={handleRenameClick}>
+            {formActive ? 'Apply' : 'Rename'}
+        </button>
         <button className='delete-button' type='button'
             onClick={() => props.onClick(props.project)}>Delete Project</button>
       </div>

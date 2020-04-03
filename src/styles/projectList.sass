@@ -27,10 +27,18 @@
     text-align: left
     &:first-child
       font-weight: bold
+  button
+    margin-right: 10px
+    border-radius: 10px
+
+.projects-nav-title
+  color: aliceblue
 
 .projects-nav-list
-  color: red
+  padding: 0
+  color: white
   font-size: 16px
+  list-style: none
 
 .projects-nav-element
   margin-bottom: 10px
@@ -53,6 +61,9 @@
     cursor: pointer 
   &:active
     background-color: #009100
+  a
+    color: white
+    text-decoration: none
 
 .add-button
   border: none
@@ -88,11 +99,56 @@
   border-radius: 5px
 
 form
-  width: 50%
+  width: 30%
+  height: 70vh
   margin: 20px auto 0 auto
+  padding-left: 10px
   display: flex
   flex-direction: column
+  justify-content: space-between
+  align-items: center
+  font-size: 18px
+  div
+    width: 100%
+    text-align: left
+    label
+      font-weight: bold
+      text-align: left
+    input, 
+    textarea 
+      width: 90%
+      margin-top: 10px
+      font-size: 1em
+      border: 1px solid #a6a6a6
+      border-radius: 5px
+  > p 
+    font-size: 22px
+  button
+    width: 50%
+    height: 40px
+    margin-bottom: 20px
+    font-size: 18px
+    color: white
+    border: none
+    border-radius: 5px
+    background-color: #4fff3a
 
 textarea
   max-width: 100%
   max-height: 150px
+
+.form-window
+  position: absolute
+  top: 0
+  bottom: 0
+  left: 0
+  right: 0
+  background-color: rgba(0,0,0,0.3)
+  form
+    position: absolute
+    background: #fff
+    top: 25
+    left: 10%
+    right: 10%
+    border: 2px solid #444
+    border-radius: 10px

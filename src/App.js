@@ -1,10 +1,18 @@
 import React from 'react';
-import { Route, Link, Switch } from 'react-router-dom';
+import { Route, Link, Switch, useLocation } from 'react-router-dom';
 import './styles/header.sass'
 import ProjectList from './views/ProjectList/ProjectList';
+import ProjectForm from './views/AddProjectForm/AddProjectForm';
+import TaskForm from './views/TaskForm/TaskForm';
 
+
+// create Component for mainpage content
+// direct access to new_project and new_task should show error page or something else
 
 function App() {
+  let location = useLocation();
+  let background = location.state && location.state.background;
+
   return (
     <div className='App'>
       <header>
@@ -20,7 +28,7 @@ function App() {
         </nav>
       </header>
       <main>
-        <Switch>
+        <Switch location={background || location}>
           <Route exact path='/'>
             <div className='main-page-content'>
               <h1>Main Page ToDo App</h1>
@@ -34,15 +42,19 @@ function App() {
                 </ul>
               </div>
             </div>
-            
           </Route>
           <Route path='/projects'>
             <ProjectList />
           </Route>
         </Switch>
+        {background && <Route path='/new_project' children={<ProjectForm />} />}
+        {background && <Route path='/projects/:project/new_task' children={<TaskForm />} />}
       </main> 
     </div>
   );
 }
+
+// create modal windows for edit forms
+// create pages for direct access to new/edit forms
 
 export default App;

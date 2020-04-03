@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 import { addNewProject } from '../../redux/actionCreators';
 import checkNameValidity from '../FormValidators/modules/checkName';
 import NameValidator from '../FormValidators/components/NameValidator';
@@ -24,6 +25,12 @@ function ProjectForm(props) {
   const [due, setDue] = useState('');
   const [importance, setImportance] = useState('');
   const [error, setError] = useState('');
+  let history = useHistory();
+
+  let back = e => {
+    e.stopPropagation();
+    history.goBack();
+  }
 
   function handleClick(e) {
     e.preventDefault();
@@ -37,8 +44,8 @@ function ProjectForm(props) {
       due,
       importance
     }
-    props.handleClick();
     props.addNewProject(formData);
+    history.goBack();
   }
 
   function handleNameChange(e) {
@@ -52,27 +59,35 @@ function ProjectForm(props) {
   }
 
   return (
-      <form onSubmit={(e) => {handleClick(e)}}>
-        <label>Name:
-          <input type='text' name='name' value={name} onChange={(e) => handleNameChange(e)}></input>
+    <div className='form-window new-project-window' onClick={back}>
+      <form 
+        onSubmit={(e) => {handleClick(e)}}
+        onClick={(e) => e.stopPropagation()}>
+        <p>Create a new Project</p>
+        <div>
+          <label htmlFor='name'>Title:</label>
+          <input id='name' type='text' name='name' value={name} onChange={(e) => handleNameChange(e)}></input>
           <NameValidator error={error} /> 
-        </label>
-        <label>Description:
-          <textarea name='description' value={description} onChange={(e) => (setDescription(e.target.value))}></textarea>
-        </label>
-        <label>Due to:
-          <input type='date' name='due' value={due} onChange={(e) => (setDue(e.target.value))}></input>
-        </label>
-        <fieldset>
-          <legend>Importance</legend>
-          <select name='importance' value={importance} onChange={(e) => (setImportance(e.target.value))}>
-            <option name='importance' value='Low'>Low</option>
-            <option name='importance' value='Medium'>Medium</option>
-            <option name='importance' value='High'>High</option>
-          </select>
-        </fieldset>
-        <button type='submit'>Create new Project</button>
+        </div>
+        <div>
+          <label htmlFor='desc'>Description:</label>
+          <textarea id='desc' name='description' value={description} onChange={(e) => (setDescription(e.target.value))}></textarea>
+        </div>
+        <div>
+          <label htmlFor='date'>Due to:</label>
+          <input id='date' type='date' name='due' value={due} onChange={(e) => (setDue(e.target.value))}></input>
+        </div>
+        <div>
+          <label htmlFor='importance'>Importance:</label>
+            <select id='importance' name='importance' value={importance} onChange={(e) => (setImportance(e.target.value))}>
+              <option name='importance' value='Low'>Low</option>
+              <option name='importance' value='Medium'>Medium</option>
+              <option name='importance' value='High'>High</option>
+            </select>
+        </div>
+        <button type='submit'>Create Project</button>
       </form>
+    </div>
   )
 }
 

@@ -1,6 +1,12 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
-import { Switch, Link, Route, useRouteMatch } from 'react-router-dom';
+import { 
+  Switch, 
+  Link,
+  Route,
+  useRouteMatch,
+  useLocation
+} from 'react-router-dom';
 import Project from '../Project/Project';
 import ProjectForm from '../AddProjectForm/AddProjectForm';
 import ProjectListElement from '../ProjectListElement/ProjectListElement';
@@ -27,6 +33,7 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
 function ProjectList(props) {
   let { path, url } = useRouteMatch();
   let [projectFormActive, setProjectForm] = useState(false);
+  let location = useLocation();
 
   function handleClick() {
     setProjectForm(!projectFormActive);
@@ -62,7 +69,17 @@ function ProjectList(props) {
             </ol>
           </div>
           <div className='add-new-project'>
-            <button className='add-new-project-button' type='button' onClick={handleClick}>Add new Project</button>
+            <Link
+              to={{
+                pathname: '/new_project',
+                state: { background: location }
+              }}>
+              <button
+                className='add-new-project-button'
+                type='button'>
+                  Add New Project
+              </button> 
+            </Link>
           </div>
           {projectFormActive && <ProjectForm handleClick={handleClick}/>}
         </Route>

@@ -4,7 +4,7 @@ import './styles/header.sass'
 import ProjectList from './views/ProjectList/ProjectList';
 import ProjectForm from './views/AddProjectForm/AddProjectForm';
 import TaskForm from './views/TaskForm/TaskForm';
-
+import TaskEditForm from './views/TaskEditForm/TaskEditForm';
 
 // create Component for mainpage content
 // direct access to new_project and new_task should show error page or something else
@@ -49,6 +49,7 @@ function App() {
         </Switch>
         {background && <Route path='/new_project' children={<ProjectForm />} />}
         {background && <Route path='/projects/:project/new_task' children={<TaskForm />} />}
+        {background && <Route path='/projects/:project/edit_task' children={<TaskEditForm />} />}
       </main> 
     </div>
   );

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux'; 
-import { useHistory, useParams } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 import { addNewTaskToProject } from '../../redux/actionCreators';
 
 const mapStateToProps = state => ({
@@ -17,9 +17,8 @@ function TaskForm(props) {
   const [due, setDue] = useState('');
   const [importance, setImportance] = useState('low');
   let history = useHistory();
-  const { project } = useParams();
-  let thisProject = props.projects.find(elem => elem.name === project); 
-  // finding project should be more reliable = looking by id?
+  let location = useLocation();
+  let thisProject = location.state.project;
 
   let back = e => {
     e.stopPropagation();
@@ -35,10 +34,11 @@ function TaskForm(props) {
 
   return (
     <div className='form-window new-task-window' onClick={back}>
-      <p>Add new Task</p>
+      
       <form
         onClick={(e) => e.stopPropagation()} 
         onSubmit={(e) => handleSubmit(e, name, description, due, importance)}>
+        <p>Create new Task</p>
       <label>Name:
         <input type='text' name='name' value={name} onChange={(e) => (setName(e.target.value))}></input> 
       </label>

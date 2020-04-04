@@ -63,7 +63,7 @@ function ProjectForm(props) {
       <form 
         onSubmit={(e) => {handleClick(e)}}
         onClick={(e) => e.stopPropagation()}>
-        <p>Create a new Project</p>
+        <p>Create new Project</p>
         <div>
           <label htmlFor='name'>Title:</label>
           <input id='name' type='text' name='name' value={name} onChange={(e) => handleNameChange(e)}></input>

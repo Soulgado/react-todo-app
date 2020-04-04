@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 import { 
   Switch, 
@@ -8,7 +8,6 @@ import {
   useLocation
 } from 'react-router-dom';
 import Project from '../Project/Project';
-import ProjectForm from '../AddProjectForm/AddProjectForm';
 import ProjectListElement from '../ProjectListElement/ProjectListElement';
 import { deleteProject, toggleProjectDone } from '../../redux/actionCreators';
 import '../../styles/projectList.sass';
@@ -32,12 +31,7 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
 
 function ProjectList(props) {
   let { path, url } = useRouteMatch();
-  let [projectFormActive, setProjectForm] = useState(false);
   let location = useLocation();
-
-  function handleClick() {
-    setProjectForm(!projectFormActive);
-  }
 
   return (
     <div className='project-list-wrap'>
@@ -81,7 +75,6 @@ function ProjectList(props) {
               </button> 
             </Link>
           </div>
-          {projectFormActive && <ProjectForm handleClick={handleClick}/>}
         </Route>
         <Route path={`${path}/:name`}>
           <Project />

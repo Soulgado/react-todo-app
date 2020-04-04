@@ -1,16 +1,12 @@
 import React, { useState } from 'react';
-import TaskEditForm from '../TaskEditForm/TaskEditForm';
+import { Link, useRouteMatch, useLocation } from 'react-router-dom';
 import TaskDetail from '../TaskDetail/TaskDetail';
 import '../../styles/task.sass';
 
 function TaskComponent(props) {
-  const [editFormActive, setEditForm] = useState(false);
   const [detailsActive, setDetails] = useState(false);
-
-
-  function handleClick() {
-    setEditForm(!editFormActive);
-  }
+  let location = useLocation();
+  let { url } = useRouteMatch();
 
   function toggleDetails() {
     setDetails(!detailsActive);
@@ -29,12 +25,19 @@ function TaskComponent(props) {
               onClick={toggleDetails}>
                 Details {detailsActive ? '⮝' : '⮟'}
             </button>
-            <button
-              className='edit-button'
-              type='button'
-              onClick={handleClick}>
-                Edit Task
-            </button>
+            <Link to={{
+              pathname: `${url}/edit_task`,
+              state: {
+                background: location,
+                task: props.task
+              }
+            }}>
+              <button
+                className='edit-button'
+                type='button'>
+                  Edit Task
+              </button>
+            </Link>
             <button
               className='delete-button'
               type='button'
@@ -44,7 +47,6 @@ function TaskComponent(props) {
           </div>
         </div>
         {detailsActive && <TaskDetail task={props.task} />}
-        {editFormActive && <TaskEditForm task={props.task} handleClick={handleClick}/>}
       </div> 
     </li>
     

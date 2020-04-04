@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { useParams, useLocation, useRouteMatch, Link } from 'react-router-dom';
 import TaskComponent from '../Task/Task';
-import TaskForm from '../TaskForm/TaskForm';
 import ProjectEditForm from '../ProjectEditForm/ProjectEditForm';
 import { deleteTask, changeProject } from '../../redux/actionCreators';
 import '../../styles/project.sass';
@@ -73,7 +72,10 @@ function Project(props) {
         <Link
           to={{
             pathname: `${url}/new_task`,
-            state: { background: location }
+            state: { 
+              background: location,
+              project: thisProject
+            }
           }}>
           <button
             id='add-task-button'

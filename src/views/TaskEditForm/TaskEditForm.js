@@ -1,16 +1,26 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
+import { useLocation, useHistory } from 'react-router-dom';
 import { changeTask } from '../../redux/actionCreators';
 
-const mapDispatchToProps = (dispatch, ownProps) => ({
-  changeTask: (formData) => dispatch(changeTask(ownProps.task, formData))
+const mapDispatchToProps = dispatch => ({
+  changeTask: (task, formData) => dispatch(changeTask(task, formData))
 })
 
 function TaskEditForm(props) {
-  const [name, setName] = useState(props.task.name);
-  const [description, setDescription] = useState(props.task.description);
-  const [due, setDue] = useState(props.task.due);
-  const [importance, setImportance] = useState(props.task.importance);
+  let location = useLocation();
+  let task = location.state.task;
+  const [name, setName] = useState(task.name);
+  const [description, setDescription] = useState(task.description);
+  const [due, setDue] = useState(task.due);
+  const [importance, setImportance] = useState(task.importance);
+  
+  let history = useHistory();
+
+  let back = e => {
+    e.stopPropagation();
+    history.goBack();
+  }
 
   function handleSubmit(e) {
     e.preventDefault();
@@ -20,12 +30,17 @@ function TaskEditForm(props) {
       due,
       importance
     }
-    props.handleClick();
-    props.changeTask(formData);
+    props.changeTask(task, formData);
+    history.goBack();
   }
 
   return (
-    <form onSubmit={(e) => handleSubmit(e)}>
+    <div
+      className='form-window edit-form'
+      onClick={back}>
+      <form 
+        onSubmit={(e) => handleSubmit(e)}
+        onClick={(e) => e.stopPropagation()}>
        <label>Name:
         <input type='text' name='name' value={name} onChange={(e) => (setName(e.target.value))}></input> 
       </label>
@@ -45,6 +60,7 @@ function TaskEditForm(props) {
       </fieldset>
       <button type='submit'>Apply Changes</button>
     </form>
+  </div> 
   )
 }
 

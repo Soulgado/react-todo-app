@@ -1,9 +1,8 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 import { useParams, useLocation, useRouteMatch, Link } from 'react-router-dom';
 import TaskComponent from '../Task/Task';
-import ProjectEditForm from '../ProjectEditForm/ProjectEditForm';
-import { deleteTask, changeProject } from '../../redux/actionCreators';
+import { deleteTask } from '../../redux/actionCreators';
 import '../../styles/project.sass';
 
 const mapStateToProps = state => {
@@ -11,30 +10,19 @@ const mapStateToProps = state => {
 }
 
 const mapDispatchToProps = dispatch => ({
-  deleteTaskFromProj: (project, task) => dispatch(deleteTask(project, task)),
-  changeProject: (project, formData) => dispatch(changeProject(project, formData)),
+  deleteTaskFromProj: (project, task) => dispatch(deleteTask(project, task))
 });
 
 function Project(props) {
   // this component controls every change in this project
   // it passes different handlers as props
-  const [editFormActive, setEditForm] = useState(false);
   let { name } = useParams();
   let location = useLocation();
   let { url } = useRouteMatch();
   let thisProject = props.projects.find(elem => elem.name === name);  // render error page if undefined
-  
-  function changeEditFormState() {
-    setEditForm(!editFormActive);
-  }
 
   function deleteTask(task) {
     props.deleteTaskFromProj(thisProject, task);
-  }
-
-  function changeThisProject(formData) {
-    changeEditFormState();
-    props.changeProject(thisProject, formData)
   }
 
   return (
@@ -84,9 +72,17 @@ function Project(props) {
               Add new task
           </button>
         </Link>
-        <button id='edit-project-button' className='edit-button'
-            type='button' onClick={changeEditFormState}>Edit Project</button>
-        {editFormActive && <ProjectEditForm project={thisProject} handleClick={changeThisProject}/>}
+        <Link 
+          to={{
+            pathname: `${url}/edit_project`,
+            state: {
+              background: location,
+              project: thisProject
+            }
+          }}>
+            <button id='edit-project-button' className='edit-button'
+              type='button'>Edit Project</button>
+          </Link>
         <div className='list-of-tasks'> 
           <h3>Tasks:</h3>  
           <ol>

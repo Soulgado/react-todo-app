@@ -1,9 +1,24 @@
 import React, { useState } from 'react';
+import { connect } from 'react-redux';
+import { useLocation, useHistory } from 'react-router-dom';
+import { changeProject } from '../../redux/actionCreators';
+
+const mapDispatchToProps = dispatch => ({
+  changeProject: (project, formData) => dispatch(changeProject(project, formData))
+})
 
 function ProjectEditForm(props) {
-  const [description, setDescription] = useState(props.project.description);
-  const [due, setDue] = useState(props.project.due);
-  const [importance, setImportance] = useState(props.project.importance);
+  let location = useLocation();
+  let project = location.state.project;
+  let history = useHistory();
+  const [description, setDescription] = useState(project.description);
+  const [due, setDue] = useState(project.due);
+  const [importance, setImportance] = useState(project.importance);
+
+  let back = e => {
+    e.stopPropagation();
+    history.goBack();
+  }
 
   function handleSubmit(e) {
     e.preventDefault();
@@ -12,11 +27,16 @@ function ProjectEditForm(props) {
       due,
       importance
     }
-    props.handleClick(formData);
+    props.changeProject(project, formData);
+    history.goBack();
   }
 
   return (
-    <form onSubmit={(e) => {handleSubmit(e)}}>
+    <div className='form-window edit-project' onClick={back}>
+      <form
+        onSubmit={(e) => {handleSubmit(e)}}
+        onClick={(e) => e.stopPropagation()}>
+      <p>Edit Project</p>
       <label>Description:
         <textarea name='description' value={description} onChange={(e) => (setDescription(e.target.value))}></textarea>
       </label>
@@ -32,8 +52,12 @@ function ProjectEditForm(props) {
         </select>
       </fieldset>
       <button type='submit'>Apply changes</button>
-    </form>
+      </form>
+    </div>
   )
 }
 
-export default ProjectEditForm;
+export default connect(
+  null,
+  mapDispatchToProps
+)(ProjectEditForm);

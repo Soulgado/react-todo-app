@@ -3,17 +3,25 @@
   justify-content: space-between
   align-items: center
   height: 30px
-  border-top: 1px solid grey
-  border-bottom: 1px solid grey
+  border-bottom: 2px solid grey
   
-
 #task-buttons 
-  > button
+  button
     margin-right: 5px
     border-radius: 10px
 
 .task-details
   display: grid
-  grid-template-rows: 1fr 2fr
-  grid-template-columns: 1fr 1fr
+  grid-template-rows: 2fr 1fr
+  grid-template-columns: 1fr 4fr
+  text-align: left
+  div
+    border-bottom: 1px solid grey
+    border-right: 1px solid grey
+    strong
+      display: inline-block 
+      margin-top: 16px
+  .task-detail-content
+    padding-left: 15px
+
   

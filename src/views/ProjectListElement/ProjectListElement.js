@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
+import { Link, useRouteMatch } from 'react-router-dom';
 import { changeProjectName } from '../../redux/actionCreators';
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
@@ -9,6 +10,7 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
 function ProjectListElement(props) {
   const [name, setName] = useState(props.project.name);
   const [formActive, setForm] = useState(false);
+  const { url } = useRouteMatch();
 
   function handleRenameClick() {
     if (!formActive) {
@@ -26,7 +28,7 @@ function ProjectListElement(props) {
         {formActive ? 
         <input id='project-name' type='text' value={name}
             onChange={(e) => setName(e.target.value)}></input>
-        : <span>{name}</span>}
+        : <Link to={`${url}/${name}`}>{name}</Link>}
         <span>Done: 
         <input type='checkbox' onChange={() => props.onToggle(props.project)}
             defaultChecked={props.project.isDone}></input></span>

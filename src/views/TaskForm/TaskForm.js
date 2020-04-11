@@ -33,29 +33,39 @@ function TaskForm(props) {
   }
 
   return (
-    <div className='form-window new-task-window' onClick={back}>
-      
+    <div className='form-window new-task-window' onClick={back}>    
       <form
         onClick={(e) => e.stopPropagation()} 
         onSubmit={(e) => handleSubmit(e, name, description, due, importance)}>
         <p>Create new Task</p>
-      <label>Name:
-        <input type='text' name='name' value={name} onChange={(e) => (setName(e.target.value))}></input> 
-      </label>
-      <label>Description:
-        <textarea name='description' value={description} onChange={(e) => (setDescription(e.target.value))}></textarea>
-      </label>
-      <label>Due to:
-        <input type='date' name='due' value={due} onChange={(e) => (setDue(e.target.value))}></input>
-      </label>
-      <fieldset>
-        <legend>Importance</legend>
-        <select value={importance} onChange={(e) => (setImportance(e.target.value))}>
-          <option name='importance' value='Low'>Low</option>
-          <option name='importance' value='Medium'>Medium</option>
-          <option name='importance' value='High'>High</option>
-        </select>
-      </fieldset>
+      <div>
+        <label htmlFor='name'>Name:</label>
+        <input
+          id='name'
+          type='text'
+          name='name'
+          value={name}
+          minLength='2'
+          maxLength='120'
+          onChange={(e) => (setName(e.target.value))}
+          required></input> 
+      </div>
+      <div>
+        <label htmlFor='description'>Description:</label>
+        <textarea id='description' name='description' value={description} onChange={(e) => (setDescription(e.target.value))}></textarea>
+      </div>
+      <div>
+        <label htmlFor='due'>Due to:</label>
+        <input id='due' type='date' name='due' value={due} onChange={(e) => (setDue(e.target.value))}></input>
+      </div>
+      <div>
+        <label htmlFor='importance'>Importance:</label>
+          <select id='importance' value={importance} onChange={(e) => (setImportance(e.target.value))}>
+            <option name='importance' value='Low'>Low</option>
+            <option name='importance' value='Medium'>Medium</option>
+            <option name='importance' value='High'>High</option>
+          </select>
+      </div>  
       <button type='submit'>Add Task</button>
       </form>
     </div> 

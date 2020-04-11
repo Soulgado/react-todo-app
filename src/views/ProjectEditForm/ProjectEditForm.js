@@ -36,22 +36,24 @@ function ProjectEditForm(props) {
       <form
         onSubmit={(e) => {handleSubmit(e)}}
         onClick={(e) => e.stopPropagation()}>
-      <p>Edit Project</p>
-      <label>Description:
-        <textarea name='description' value={description} onChange={(e) => (setDescription(e.target.value))}></textarea>
-      </label>
-      <label>Due to:
-        <input type='date' name='due' value={due} onChange={(e) => (setDue(e.target.value))}></input>
-      </label>
-      <fieldset>
-        <legend>Importance</legend>
-        <select name='importance' value={importance} onChange={(e) => (setImportance(e.target.value))}>
-          <option name='importance' value='Low'>Low</option>
-          <option name='importance' value='Medium'>Medium</option>
-          <option name='importance' value='High'>High</option>
-        </select>
-      </fieldset>
-      <button type='submit'>Apply changes</button>
+        <p>Edit Project</p>
+        <div>
+          <label htmlFor='description'>Description:</label>
+          <textarea id='description' name='description' value={description} onChange={(e) => (setDescription(e.target.value))}></textarea>
+        </div>
+        <div>
+          <label htmlFor='due'>Due to:</label>
+          <input type='date' name='due' value={due} onChange={(e) => (setDue(e.target.value))}></input>
+        </div>
+        <div>
+          <label htmlFor='importance'>Importance:</label>
+          <select id='importance' name='importance' value={importance} onChange={(e) => (setImportance(e.target.value))}>
+            <option name='importance' value='Low'>Low</option>
+            <option name='importance' value='Medium'>Medium</option>
+            <option name='importance' value='High'>High</option>
+          </select>
+        </div>
+        <button type='submit'>Apply changes</button>
       </form>
     </div>
   )

@@ -41,26 +41,30 @@ function TaskEditForm(props) {
       <form 
         onSubmit={(e) => handleSubmit(e)}
         onClick={(e) => e.stopPropagation()}>
-       <label>Name:
-        <input type='text' name='name' value={name} onChange={(e) => (setName(e.target.value))}></input> 
-      </label>
-      <label>Description:
-        <textarea name='description' value={description} onChange={(e) => (setDescription(e.target.value))}></textarea>
-      </label>
-      <label>Due to:
-        <input type='date' name='due' value={due} onChange={(e) => (setDue(e.target.value))}></input>
-      </label>
-      <fieldset>
-        <legend>Importance</legend>
-        <select value={importance} onChange={(e) => (setImportance(e.target.value))}>
-          <option name='importance' value='Low'>Low</option>
-          <option name='importance' value='Medium'>Medium</option>
-          <option name='importance' value='High'>High</option>
-        </select>
-      </fieldset>
-      <button type='submit'>Apply Changes</button>
-    </form>
-  </div> 
+        <p>Edit task</p>
+        <div>
+          <label htmlFor='name'>Name:</label>
+          <input id='name' type='text' name='name' value={name} onChange={(e) => (setName(e.target.value))}></input> 
+        </div>
+        <div>
+          <label htmlFor='description'>Description:</label>
+          <textarea id='description' name='description' value={description} onChange={(e) => (setDescription(e.target.value))}></textarea>
+        </div>
+        <div>
+          <label htmlFor='due'>Due to:</label>
+          <input id='due' type='date' name='due' value={due} onChange={(e) => (setDue(e.target.value))}></input>
+        </div>
+        <div>
+          <label htmlFor='importance'>Importance:</label>
+          <select value={importance} onChange={(e) => (setImportance(e.target.value))}>
+            <option name='importance' value='Low'>Low</option>
+            <option name='importance' value='Medium'>Medium</option>
+            <option name='importance' value='High'>High</option>
+          </select>
+        </div> 
+        <button type='submit'>Apply Changes</button>
+      </form>
+    </div> 
   )
 }
 

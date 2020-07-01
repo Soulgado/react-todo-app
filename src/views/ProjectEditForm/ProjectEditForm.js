@@ -9,7 +9,7 @@ const mapDispatchToProps = dispatch => ({
 
 function ProjectEditForm(props) {
   let location = useLocation();
-  let project = location.state.project;
+  let project = location.state.project;  // project object passed from Link element
   let history = useHistory();
   const [description, setDescription] = useState(project.description);
   const [due, setDue] = useState(project.due);

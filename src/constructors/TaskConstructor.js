@@ -4,7 +4,7 @@ class Task {
     this._desc = desc;
     this._due = new Date(due); 
     this._importance = importance;
-    this._isDone = false;      // change to argument value???
+    this._isDone = false;   
   } 
   
   get name() {

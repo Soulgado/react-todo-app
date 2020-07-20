@@ -15,7 +15,7 @@ class Project extends Task {
   }
 
   deleteTask(task) {
-    this._tasks = this._tasks.filter(element => element !== task)  // best implementation??? index/filter/another??
+    this._tasks = this._tasks.filter(element => element !== task)
   }
 }
 

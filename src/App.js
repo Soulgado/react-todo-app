@@ -7,9 +7,6 @@ import TaskForm from './views/TaskForm/TaskForm';
 import TaskEditForm from './views/TaskEditForm/TaskEditForm';
 import ProjectEditForm from './views/ProjectEditForm/ProjectEditForm';
 
-// create Component for mainpage content
-// direct access to new_project and new_task should show error page or something else
-
 function App() {
   let location = useLocation();
   let background = location.state && location.state.background;
@@ -39,8 +36,15 @@ function App() {
                 <ul>
                   <li>Create projects with description, due date and importance</li>
                   <li>For each project create tasks</li>
-                  <li>Projects are saved locally</li>
+                  <li>
+                    Projects are saved locally,
+                     using <a href='https://developer.mozilla.org/ru/docs/Web/API/Window/localStorage'>localStorage</a>
+                  </li>
                 </ul>
+                <div>
+                  <button className='add-new-project-button' type='button'>
+                    <Link to='/projects'>Start Projects</Link>
+                  </button></div>
               </div>
             </div>
           </Route>
@@ -56,8 +60,5 @@ function App() {
     </div>
   );
 }
-
-// create modal windows for edit forms
-// create pages for direct access to new/edit forms
 
 export default App;

@@ -41,7 +41,6 @@ export function changeProject(project, formData) {
   })
 }
 
-
 export function addNewTaskToProject(project, formData) {
   const newTask = new Task(formData.name, formData.description, formData.due, formData.importance);
   project.tasks.push(newTask);

@@ -8,6 +8,8 @@
 
 Главная страница приложения: 
 
+<img src="https://user-images.githubusercontent.com/52062811/87942509-f9a0df00-ca9c-11ea-9bf5-623e53189cea.png"></img>
+
 Список проектов: 
 
 <img src="https://user-images.githubusercontent.com/52062811/86268592-b4d60680-bbc8-11ea-9fa8-0d43eb17a61a.png"></img>
